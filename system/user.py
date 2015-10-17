@@ -1352,7 +1352,10 @@ class SunOS(User):
             cmd.append('-s')
             cmd.append(self.shell)
 
-        if self.module.check_mode:
+        # skip if no changes to be made
+        if len(cmd) == 1:
+            return (None, '', '')
+        elif self.module.check_mode:
             return (0, '', '')
         else:
             # modify the user if cmd will do anything
